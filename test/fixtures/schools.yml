@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  county: MyString
+  district: MyString
+  name: MyString
+  county_id: 
+  district_id: 
+  school_id: 
+  DFG: MyString
+  numstudents: 
+  numpassing: 
+  avgclasssize: 1.5
+
+two:
+  county: MyString
+  district: MyString
+  name: MyString
+  county_id: 
+  district_id: 
+  school_id: 
+  DFG: MyString
+  numstudents: 
+  numpassing: 
+  avgclasssize: 1.5
