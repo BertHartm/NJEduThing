@@ -13,3 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+//= require chosen.jquery
+
+$(document).ready(function() {
+    $(".chzn-select").chosen();
+});

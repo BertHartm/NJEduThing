@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130126233038) do
+ActiveRecord::Schema.define(:version => 20130127020351) do
 
   create_table "dfgs", :force => true do |t|
     t.string   "label"
@@ -24,6 +24,12 @@ ActiveRecord::Schema.define(:version => 20130126233038) do
     t.float    "costperstudent"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.integer  "county_id"
+    t.integer  "district_id"
+    t.string   "county"
+    t.string   "district"
+    t.integer  "numstudents"
+    t.integer  "numpassing"
   end
 
   create_table "schools", :force => true do |t|

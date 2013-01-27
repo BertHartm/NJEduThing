@@ -6,11 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-File.open("schlsums.txt") do |f|
+File.open("db/schlsums.txt") do |f|
   f.readline() # skip the first line (headers)
   f.each_line do |tsv|
     tsv.chomp!
-    arr tsv.split('\t')
+    arr = tsv.split("\t")
+    arr.each do |item|
+      # strip leading and trailing "
+      item.replace(item.chomp('"').reverse.chomp('"').reverse)
+    end
     schl = arr[2].strip
     if not schl.nil?
       x = School.new(:county_id => arr[0].strip,
@@ -19,37 +23,82 @@ File.open("schlsums.txt") do |f|
                      :county => arr[3].strip,
                      :district => arr[4].strip,
                      :name => arr[5].strip,
-                     :dfg => arr[6].strip,
+                     #:dfg => arr[6].strip,
                      :numstudents => arr[7],
-                     :numpassing => arr[8])      
+                     :numpassing => arr[8])
     else
-      x = District.new(
-                       #TODO: this)
-      
+      x = District.new(:county_id => arr[0].strip,
+                       :district_id => arr[1].strip,
+                       :county => arr[3].strip,
+                       :district => arr[4].strip,
+                       :dfg => arr[6].strip,
+                       :numstudents => arr[7],
+                       :numpassing => arr[8])
     end
   end
 end
 
-File.open("dfgsums.txt") do |f|
+File.open("db/dfgsums.txt") do |f|
   f.readline() # skip the first line (headers)
   f.each_line do |tsv|
     tsv.chomp!
-    arr tsv.split('\t')
-    schl = arr[2].strip
+    arr = tsv.split("\t")
+    arr.each do |item|
+      # strip leading and trailing "
+      item.replace(item.chomp('"').reverse.chomp('"').reverse)
+    end
     x = Dfg.new(:label => arr[0].strip,
                 :passrate => arr[3].strip)
   end
 end
 
-File.open("drpout.txt") do |f|
+File.open("db/drpout.txt") do |f|
   f.readline() # skip the first line (headers)
   f.each_line do |tsv|
     tsv.chomp!
-    arr tsv.split('\t')
-    schl = arr[2].strip
-    x = Dfg.new(:CO_CODE => arr[0].strip,
-                :DIST_CODE => arr[1].strip,
-                :SCH_CODE => arr[2].strip,
-                :TOTDRP => arr[3].strip)
+    arr = tsv.split("\t")
+    arr.each do |item|
+      # strip leading and trailing "
+      item.replace(item.chomp('"').reverse.chomp('"').reverse)
+    end
+    county_id = arr[0].strip
+    district_id = arr[1].strip
+    school_id = arr[2].strip
+    school = School.where("county_id = " + county_id + " and district_id = " + district_id + " and school_id = " + school_id)
+    school.update(:drop_rate => arr[3].strip)
+  end
+end
+
+File.open("db/classsize.txt") do |f|
+  f.readline()
+  f.each_line do |tsv|
+    tsv.chomp!
+    arr = tsv.split("\t")
+    arr.each do |item|
+      # strip leading and trailing "
+      item.replace(item.chomp('"').reverse.chomp('"').reverse)
+    end
+    county_id = arr[0].strip
+    district_id = arr[1].strip
+    school_id = arr[2].strip
+    school = School.where("county_id = " + county_id + " and district_id = " + district_id + " and school_id = " + school_id)
+    school.update(:avgclasssize => arr[3].strip)
+  end
+end
+
+File.open("db/drpout.txt") do |f|
+  f.readline() # skip the first line (headers)
+  f.each_line do |tsv|
+    tsv.chomp!
+    arr = tsv.split("\t")
+    arr.each do |item|
+      # strip leading and trailing "
+      item.replace(item.chomp('"').reverse.chomp('"').reverse)
+    end
+    county_id = arr[0].strip
+    district_id = arr[1].strip
+    school_id = arr[2].strip
+    school = School.where("county_id = " + county_id + " and district_id = " + district_id + " and school_id = " + school_id)
+    school.update(:drop_rate => arr[3].strip)
   end
 end
